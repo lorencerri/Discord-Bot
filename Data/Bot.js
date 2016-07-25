@@ -69,8 +69,21 @@ bot.on("message", function(message) {
     var sayInput = mes.split(" ").slice(1).join(" ")
     var user = message.sender;
     var prefix = message.content.toUpperCase();
-    var role = message.server.roles.get("name", "Innkeeper");
-    var commander = user.hasRole(role, 'Innkeeper');
+
+    function hasInnkeeper() {
+      try {
+      if (message.server.roles.get("name", "Innkeeper")) {
+        return true;
+      } else {
+        bot.sendMessage(message, 'Innkeeper role not found.');
+        return false;
+      }
+      } catch (err) {
+        bot.sendMessage(message, 'Some features are disabled/minimal in private message.');
+        return false;
+      }
+      }
+
 
     if (input === 'COMMANDS') { //Returns the documentation.
         bot.sendMessage(message, 'Documentation: \'http://theinnkeeper.weebly.com/documentation.html\'');
@@ -81,7 +94,7 @@ bot.on("message", function(message) {
     }
 
     else if (input === 'STATS') { //Displays all stats for the bot.
-        bot.sendMessage(message, ' **Uptime:** *' + uptime() + '*\n **Servers:** *' + bot.servers.length + '*\n **Channels:** *' + bot.channels.length + '*\n **Users:** *' + bot.users.length + '*');
+        bot.sendMessage(message, ' **Uptime:** *' + uptime() + '*\n **Servers:** *' + bot.servers.length + '*\n **Channels:** *' + bot.channels.length + '*\n **Users:** *' + bot.users.length + '*\n **Shards:** *' + bot.shardCount + '*');
     }
 
     else if (input === 'SERVERS') { //Returns how many servers the bot is connected to.
@@ -155,7 +168,8 @@ bot.on("message", function(message) {
         }
     }
 
-    else if (input.startsWith('TYPING') && commander) { //Typing on or off.
+//DISABLED - SENDING TYPING PACKETS WILL GET YOU IPBANNED
+/*    else if (input.startsWith('TYPING') && hasInnkeeper) { //Typing on or off.
 
       if (input.includes('ON') && !input.includes('OFF')) {
         bot.sendMessage(message, '**Status Set:** *Typing*');
@@ -168,7 +182,7 @@ bot.on("message", function(message) {
       } else {
         bot.sendMessage(message, 'Proper Usage: \`>typing [on/off]\`');
       }
-    }
+    } */
 
     else if (input.startsWith('SUGGEST') || input.startsWith('SUGGESTIONS')) { //Suggest Commands.
       bot.sendMessage(message, 'Please suggest ideas here: https://theinnkeeper.uservoice.com/');
@@ -249,12 +263,20 @@ bot.on("message", function(message) {
 
     else if (input.startsWith('CALL')) {
       bot.sendMessage(message, ':arrow_right: Private Messaging You To Decrease Spam :arrow_left:');
-      bot.sendMessage(user.id, ':rotating_light: This feature is experimental. You may experience bugs/glitches when using it. :rotating_light: ');
+      bot.sendMessage(user.id, ':rotating_light: This feature is experimental. You may experience bugs/glitches when using it. :rotating_light: \n');
 
-      var foundUser = false;
 
-        var userList = bot.users.getAll('status', 'online');
+
+      var userList = []
+        for(var user of bot.users){
+        if(user.status == "online" && user.bot == false){
+          userList.push(user)
+          }
+        }
+
+        bot.sendMessage(user.id, ':telephone: :arrow_right: Users Found That Meet Search Criteria: ' + userList.length + ' out of ' + bot.users.length + '.');
         console.log(userList);
+        console.log(userList.length);
 
     }
 
@@ -265,9 +287,13 @@ bot.on("message", function(message) {
     }
 
 
-    bot.setStreaming('Commands\! | >help' ,'https://twitch.tv/truexpixels', 1);
-    console.log(user.username + ' @ ' + timeStamp() + ' | ' + message.content);
 
+    console.log(timeStamp() + ' [' + message.server + ' | #' + message.channel.name + '] ' + user.username + ': ' + message.content);
+
+});
+
+bot.on('ready', function() {
+  bot.setStreaming('Commands\! | >help' ,'https://twitch.tv/truexpixels', 1);
 });
 
 bot.loginWithToken("MTc1NDcyMzk5OTIyMjMzMzQ0.Ck4NMg.UkWs6YG2a9g8dW8boHFkIhit2zo");
