@@ -2,6 +2,7 @@ var Discord = require("discord.js");
 var bot = new Discord.Client();
 var typing = false;
 var currentTimers = '';
+
 function round(num) {
     return Math.ceil(num * 1) / 1;
 }
@@ -262,30 +263,30 @@ bot.on("message", function(message) {
     }
 
     else if (input.startsWith('CALL')) {
-      bot.sendMessage(message, ':arrow_right: Private Messaging You To Decrease Spam :arrow_left:');
-      bot.sendMessage(user.id, ':rotating_light: This feature is experimental. You may experience bugs/glitches when using it. :rotating_light: \n').then(() => getUser());
-      var senderId = message.sender.id;
+    bot.sendMessage(message, ':arrow_right: Private Messaging You To Decrease Spam :arrow_left:');
+    bot.sendMessage(user.id, ':rotating_light: This feature is experimental. You may experience bugs/glitches when using it. :rotating_light: \n').then(() => getUser());
+    var senderId = message.sender.id;
 
-      function getUser() {
+    function getUser() {
         try {
-        var userList = []
-          for(var user of bot.users){
-          if(user.status == "online" && user.bot == false){
-            userList.push(user)
+            var userList = []
+            for (var user of bot.users) {
+                if (user.status == "online" && user.bot == false) {
+                    userList.push(user)
+                }
             }
-          }
 
-          bot.sendMessage(senderId, ':telephone: :arrow_right: Users Found That Meet Search Criteria: ' + userList.length + ' out of ' + bot.users.length + '.');
-          bot.sendMessage(message, ':telephone: :arrow_right: User Found: ' + userList[Math.floor(Math.random() * userList.length)]);
+            bot.sendMessage(senderId, ':telephone: :arrow_right: Users Found That Meet Search Criteria: ' + userList.length + ' out of ' + bot.users.length + '.');
+            bot.sendMessage(message, ':telephone: :arrow_right: User Found: ' + userList[Math.floor(Math.random() * userList.length)]);
 
         } catch (err) {
-          bot.sendMessage(message, err)
+            bot.sendMessage(message, err)
         }
-          console.log(userList);
-          console.log(userList.length);
-        }
-
+        console.log(userList);
+        console.log(userList.length);
     }
+
+}
 
     else { //Unknown Command.
       if ( message.server.id === '206541680504078337') {
@@ -293,14 +294,12 @@ bot.on("message", function(message) {
       }
     }
 
-
-
     console.log(timeStamp() + ' [' + message.server + ' | #' + message.channel.name + '] ' + user.username + ': ' + message.content);
 
 });
 
 bot.on('ready', function() {
-  bot.setStreaming('Commands\! | >help' ,'https://twitch.tv/truexpixels', 1);
+    bot.setStreaming('Commands\! | >help', 'https://twitch.tv/truexpixels', 1);
 });
 
 bot.loginWithToken("MTc1NDcyMzk5OTIyMjMzMzQ0.Ck4NMg.UkWs6YG2a9g8dW8boHFkIhit2zo");
