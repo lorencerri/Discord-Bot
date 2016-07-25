@@ -70,6 +70,7 @@ bot.on("message", function(message) {
     var user = message.sender;
     var prefix = message.content.toUpperCase();
     var role = message.server.roles.get("name", "Innkeeper");
+    var commander = user.hasRole(role, 'Innkeeper');
 
     if (input === 'COMMANDS') { //Returns the documentation.
         bot.sendMessage(message, 'Documentation: \'http://theinnkeeper.weebly.com/documentation.html\'');
@@ -154,7 +155,7 @@ bot.on("message", function(message) {
         }
     }
 
-    else if (input.startsWith('TYPING') && user.hasRole(role, 'Innkeeper')) { //Typing on or off.
+    else if (input.startsWith('TYPING') && commander) { //Typing on or off.
 
       if (input.includes('ON') && !input.includes('OFF')) {
         bot.sendMessage(message, '**Status Set:** *Typing*');
