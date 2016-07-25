@@ -263,20 +263,27 @@ bot.on("message", function(message) {
 
     else if (input.startsWith('CALL')) {
       bot.sendMessage(message, ':arrow_right: Private Messaging You To Decrease Spam :arrow_left:');
-      bot.sendMessage(user.id, ':rotating_light: This feature is experimental. You may experience bugs/glitches when using it. :rotating_light: \n');
+      bot.sendMessage(user.id, ':rotating_light: This feature is experimental. You may experience bugs/glitches when using it. :rotating_light: \n').then(() => getUser());
+      var senderId = message.sender.id;
 
-
-
-      var userList = []
-        for(var user of bot.users){
-        if(user.status == "online" && user.bot == false){
-          userList.push(user)
+      function getUser() {
+        try {
+        var userList = []
+          for(var user of bot.users){
+          if(user.status == "online" && user.bot == false){
+            userList.push(user)
+            }
           }
-        }
 
-        bot.sendMessage(user.id, ':telephone: :arrow_right: Users Found That Meet Search Criteria: ' + userList.length + ' out of ' + bot.users.length + '.');
-        console.log(userList);
-        console.log(userList.length);
+          bot.sendMessage(senderId, ':telephone: :arrow_right: Users Found That Meet Search Criteria: ' + userList.length + ' out of ' + bot.users.length + '.');
+          bot.sendMessage(message, ':telephone: :arrow_right: User Found: ' + userList[Math.floor(Math.random() * userList.length)]);
+
+        } catch (err) {
+          bot.sendMessage(message, err)
+        }
+          console.log(userList);
+          console.log(userList.length);
+        }
 
     }
 
