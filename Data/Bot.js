@@ -70,6 +70,7 @@ bot.on("message", function(message) {
     var sayInput = mes.split(" ").slice(1).join(" ")
     var user = message.sender;
     var prefix = message.content.toUpperCase();
+    var userList = [];
 
     function hasInnkeeper() {
       try {
@@ -95,7 +96,7 @@ bot.on("message", function(message) {
     }
 
     else if (input === 'STATS') { //Displays all stats for the bot.
-        bot.sendMessage(message, ' **Uptime:** *' + uptime() + '*\n **Servers:** *' + bot.servers.length + '*\n **Channels:** *' + bot.channels.length + '*\n **Users:** *' + bot.users.length + '*\n **Shards:** *' + bot.shardCount + '*');
+        bot.sendMessage(message, ' **Uptime:** *' + uptime() + '*\n **Servers:** *' + bot.servers.length + '*\n **Channels:** *' + bot.channels.length + '*\n **Users:** *' + bot.users.length);
     }
 
     else if (input === 'SERVERS') { //Returns how many servers the bot is connected to.
@@ -263,33 +264,37 @@ bot.on("message", function(message) {
     }
 
     else if (input.startsWith('CALL')) {
-    bot.sendMessage(message, ':arrow_right: Private Messaging You To Decrease Spam :arrow_left:');
-    bot.sendMessage(user.id, ':rotating_light: This feature is experimental. You may experience bugs/glitches when using it. :rotating_light: \n').then(() => getUser());
+    bot.sendMessage(message, ':arrow_right: Private Messaging You To Decrease Spam :arrow_left:').then(() => {
+    bot.sendMessage(user.id, ':rotating_light: This feature is experimental. You may experience bugs/glitches when using it. :rotating_light: \n').then(() => getUser())});
     var senderId = message.sender.id;
 
     function getUser() {
         try {
-            var userList = []
+            userList = []
             for (var user of bot.users) {
                 if (user.status == "online" && user.bot == false) {
                     userList.push(user)
                 }
             }
 
-            bot.sendMessage(senderId, ':telephone: :arrow_right: Users Found That Meet Search Criteria: ' + userList.length + ' out of ' + bot.users.length + '.');
-            bot.sendMessage(message, ':telephone: :arrow_right: User Found: ' + userList[Math.floor(Math.random() * userList.length)]);
+            var randomUser = userList[Math.floor(Math.random() * userList.length)];
+            var serverIn = randomUser.servers;
+            bot.sendMessage(senderId, ':telephone: :arrow_right: Users Found That Meet Search Criteria: ' + userList.length + ' out of ' + bot.users.length + '.').then(() => {
+              bot.sendMessage(senderId, ':telephone: :arrow_right: User Found: ' + randomUser + '.' + serverIn);
+});
 
         } catch (err) {
             bot.sendMessage(message, err)
         }
-        console.log(userList);
         console.log(userList.length);
     }
 
 }
-
+    else if (input === 'ID'){
+      bot.sendMessage(message, '**' + user.username + ':**\n **ID:** *' + user.id + '*');
+    }
     else { //Unknown Command.
-      if ( message.server.id === '206541680504078337') {
+      if ( false ) {
         bot.sendMessage(message, 'Unknown Command | Do \`>commands\` for a list of commands.');
       }
     }
