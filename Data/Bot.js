@@ -1,7 +1,7 @@
 var Discord = require("discord.js");
 var bot = new Discord.Client();
 var typing = false;
-var currentTimers = '';
+var currentTimers = [];
 
 function round(num) {
     return Math.ceil(num * 1) / 1;
@@ -209,11 +209,11 @@ bot.on("message", function(message) {
 
 
 
-      bot.sendMessage(message, '```' + 'Current Timers:\n' + currentTimers + '```');
+      bot.sendMessage(message, '```' + 'Current Timers:\n' + currentTimers + '\n Feature in development.```');
     }
 
     else if (input.startsWith('TIMER')) {
-      function countdownFinish() {
+      function countdownFinish(second) {
   			bot.sendMessage(message, user + " | Your " + seconds + " second timer has finished!");
   		}
 
@@ -221,7 +221,9 @@ bot.on("message", function(message) {
       var milliseconds = 1000 * seconds;
         if ( ! isNaN(milliseconds)) {
         bot.sendMessage(message, 'Starting ' + seconds + ' second timer.');
-
+        currentTimers.push([(currentTimers.length + 1) + ' User: ' + user.username + ' Length: ' + seconds + ' second(s).'])
+        console.log(currentTimers);
+        setTimeout(countdownFinish, milliseconds);
       } else {
         bot.sendMessage(message, 'Proper Usage: `>timer [seconds]`')
       }
@@ -269,25 +271,25 @@ bot.on("message", function(message) {
     var senderId = message.sender.id;
 
     function getUser() {
-        try {
-            userList = []
-            for (var user of bot.users) {
-                if (user.status == "online" && user.bot == false) {
-                    userList.push(user)
+                try {
+                    userList = []
+                    for (var user of bot.users) {
+                        if (user.status == "online" && user.bot == false) {
+                            userList.push(user)
+                        }
+                    }
+
+                    var randomUser = userList[Math.floor(Math.random() * userList.length)];
+                    //var serverIn = userList.find(randomUser);
+                    bot.sendMessage(senderId, ':telephone: :arrow_right: Users Found That Meet Search Criteria: ' + userList.length + ' out of ' + bot.users.length + '.').then(() => {
+                      bot.sendMessage(senderId, ':telephone: :arrow_right: User Found: ' + randomUser + '.');
+        });
+
+                } catch (err) {
+                    bot.sendMessage(message, err)
                 }
+                console.log(userList.length);
             }
-
-            var randomUser = userList[Math.floor(Math.random() * userList.length)];
-            var serverIn = randomUser.servers;
-            bot.sendMessage(senderId, ':telephone: :arrow_right: Users Found That Meet Search Criteria: ' + userList.length + ' out of ' + bot.users.length + '.').then(() => {
-              bot.sendMessage(senderId, ':telephone: :arrow_right: User Found: ' + randomUser + '.' + serverIn);
-});
-
-        } catch (err) {
-            bot.sendMessage(message, err)
-        }
-        console.log(userList.length);
-    }
 
 }
     else if (input === 'ID'){
