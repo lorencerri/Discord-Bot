@@ -8,3 +8,6 @@ exports.run = (client, message, args, tools) => { // Since we passed in these ar
   // Now, we can test the '!ping' command.
 
 }
+let user;
+
+ if (user.presence.activity !== null && user.presence.activity.type === 'LISTENING' && user.presence.activity.name === 'Spotify' && user.presence.activity.assets !== null)
