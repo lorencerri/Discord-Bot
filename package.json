@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "discord.js": "github:hydrabolt/discord.js",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "string-similarity": "^1.2.0"
   },
   "engines": {
     "node": "8.x"

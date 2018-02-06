@@ -1,10 +1,10 @@
 // Require Packages
 const Discord = require('discord.js');
-const tools = require('./functions.js'); // This checks the root directory for this js file, where server.js is.
+const tools = require('./functions.js'); // This checks the root directory for this js file, where server.js is. 
 
 // Configure Packages
 const client = new Discord.Client();
-const prefix = '!'; // You can set any prefix you like.
+const prefix = '!'; // You can set any prefix you like. 
 
 // Listener Events
 client.on('message', message => { // This will run every time a message is recieved, sending it the message object.
