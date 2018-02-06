@@ -1,5 +1,6 @@
 // Require Packages
 const Discord = require('discord.js');
+const tools = require('./functions.js'); // This checks the root directory for this js file, where server.js is.
 
 // Configure Packages
 const client = new Discord.Client();
@@ -22,7 +23,7 @@ client.on('message', message => { // This will run every time a message is recie
   try { // This will run first, it will 'try' to run this code
     
     let commandFile = require(`./commands/${cmd}.js`); // This will create a requirement of the given file.
-    commandFile.run(client, message, args); // This will attempt to run the file you just fetched.
+    commandFile.run(client, message, args, tools); // This will attempt to run the file you just fetched. Now, we can add it to things to pass when running commands, so this means the functions.js file will automatically be added to the commands.
     
   } catch (e) { // This will run if it encounters an error, such as the command not being found.
     
