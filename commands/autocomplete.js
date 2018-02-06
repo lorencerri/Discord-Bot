@@ -4,7 +4,7 @@ const sm = require('string-similarity'); // This is the primary package we will 
 
 exports.run = (client, message, args, tools) => { // This is the same handler we have been using in the previous episodes.
 
-  // First, we want to make sure the user put some text as input.
+    // First, we want to make sure the user put some text as input.
   if (!args[0]) return tools.embed(message.channel, 'Please input some text'); // This is from the `Global Functions` episode. - This checks to see if args[0] is defined, if it's not it runs the return statement.
   
   // Next, we want to create 2 arrays, one of the users and one of their ID's
@@ -28,5 +28,21 @@ exports.run = (client, message, args, tools) => { // This is the same handler we
   tools.embed(message.channel, 'Do you mean: ' + member); // Now, we can post in chat what the autocomplete is.
   
   // Let's test it out!
+  
+  /*
+    BONUS CONTENT [This does the same thing as above, but moved into a global function.]
+  */
+  
+  let user = tools.autocomplete(message, args.join(' ')); // Remeber, args.join(' '); is the message content AFTER the command.
+  
+  // Now, since the member object now holds the member we are looking for, lets post it to chat.
+  tools.embed(message.channel, '[2nd Method] Do you mean: ' + user);
+  
+  /*
+    BONUS CONTENT END - BONUS CONTENT END - BONUS CONTENT END
+  */
 
-};
+}; // We can start out by copy and pasting this code, to a new functions js function.
+
+// This episode requires the previous episode do be done, which was released a few hours ago titled 'Autocomplete Usernames'
+
