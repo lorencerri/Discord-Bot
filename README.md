@@ -1,6 +1,6 @@
 # Hello!
 
-Thank you for viewing the source code, keep in mind **"Last Episode"** means *the last time the file was modified*.
+Thank you for viewing the source code, keep in mind **"Latest Episode"** means *the last time the file was modified*.
 
 # Please Read:
 

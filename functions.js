@@ -4,13 +4,13 @@ module.exports = { // Since this is being called like a module, the inside file 
   
   ping: function() { // This is how a function would look, the name on the left, followed by function() with optional arguments.
     
-    return 'Hello!'; // For example, this will pass 'Hello!' to the file, using the ping() function.
+    return 'Hello!'; // For example, this will pass 'Hello!' to the file, using the ping() function. 
       
   },
   
   embed: function(channel, message, timer) { // We can try something more advanced, using embed as the function name. We are going to pass it 2 required arguments, and one optional being timer.
     
-    channel = channel.channel || channel; // This makes it so you can just send it the message instead of channel, if message.channel is not found, it falls back to just channel.
+    channel = channel.channel || channel; // This makes it so you can just send it the message instead of channel, if message.channel is not found, it falls back to just channel. 
     
     channel.send({embed:{ // Now, it sends an embed message to that channel.
       description: message, // The description object, will be the message we input into it.
